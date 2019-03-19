@@ -1,9 +1,21 @@
+## v1.7.8 [2019-02-08]
+### Bug Fixes
+1. [#5068](https://github.com/influxdata/chronograf/pull/5068): Escape injected meta query values
+1. [#5073](https://github.com/influxdata/chronograf/pull/5073): Fix out of range decimal places
+1. [#5076](https://github.com/influxdata/chronograf/pull/5076): Stop raw yaxis format from getting updated to 10
+1. [#5077](https://github.com/influxdata/chronograf/pull/5077): Correct autoInterval calculations
+1. [#5079](https://github.com/influxdata/chronograf/pull/5079): Fix multiple organizations not showing configured kapacitors
+1. [#5078](https://github.com/influxdata/chronograf/pull/5078): Fix the inability to edit kapacitor info in the onboarding wizard
+1. [#5083](https://github.com/influxdata/chronograf/pull/5083): Fix the column names in the Window function example
+
+## v1.7.7 [2018-01-16]
+
 ## v1.7.7 [2018-01-16]
 
 ### Bug Fixes
 1. [#5045](https://github.com/influxdata/chronograf/pull/5045): Use JWT in enterprise for authentication in flux
 
-## v1.7.6 [2018-01-14]
+## v1.7.6 [2019-01-14]
 
 ### Bug Fixes
 1. [#4895](https://github.com/influxdata/chronograf/pull/4895): Properly set scroll to row for table graph

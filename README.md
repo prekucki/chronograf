@@ -165,7 +165,7 @@ The Chronograf team has identified and is working on the following issues:
 ## Installation (Chronograf only)
 
 Check out the
-[INSTALLATION](https://docs.influxdata.com/chronograf/v1.4/introduction/installation/)
+[INSTALLATION](https://docs.influxdata.com/chronograf/latest/introduction/installation/)
 guide to get up and running with Chronograf with as little configuration and
 code as possible.
 
@@ -187,7 +187,7 @@ By default, chronograf runs on port `8888`.
 To get started right away with Docker, you can pull down our latest release:
 
 ```sh
-docker pull loudml/chronograf:1.7.7
+docker pull chronograf:latest
 ```
 
 ### From Source
@@ -239,15 +239,25 @@ yarn start
 
 ## Documentation
 
-[Getting Started](https://docs.influxdata.com/chronograf/v1.4/introduction/getting-started/)
+[Getting Started](https://docs.influxdata.com/chronograf/latest/introduction/getting-started/)
 will get you up and running with Chronograf with as little configuration and
 code as possible. See our
-[guides](https://docs.influxdata.com/chronograf/v1.4/guides/) to get familiar
+[guides](https://docs.influxdata.com/chronograf/latest/guides/) to get familiar
 with Chronograf's main features.
 
 Documentation for Telegraf, InfluxDB, and Kapacitor are available at
 https://docs.influxdata.com/.
 
+<<<<<<< HEAD
+=======
+Chronograf uses
+[swagger](https://swagger.io/specification) to
+document its REST interfaces. To reach the documentation, run the server and go
+to the `/docs` for example at http://localhost:8888/docs
+
+The swagger JSON document is in `server/swagger.json`
+
+>>>>>>> 1.7.8
 ## Contributing
 
 TODO
