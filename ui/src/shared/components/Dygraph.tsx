@@ -51,7 +51,9 @@ import {LineColor} from 'src/types/colors'
 
 const Dygraphs = D as any
 
-const getRangeMemoizedY = memoizeOne(getRange)
+//const getRangeMemoizedY = memoizeOne(getRange)
+const getRangeMemoizedY = getRange
+console.log("test");
 
 const DEFAULT_DYGRAPH_OPTIONS = {
   rightGap: 0,
@@ -154,6 +156,7 @@ class Dygraph extends Component<Props, State> {
   public componentDidUpdate(prevProps: Props) {
     const dygraph = this.dygraph
     const options = this.collectDygraphOptions()
+    console.log("options=", options);
     const optionsChanged = this.haveDygraphOptionsChanged(options)
     const timeRangeChanged = !isEqual(prevProps.timeRange, this.props.timeRange)
     const staticLegendChanged =
@@ -280,6 +283,29 @@ class Dygraph extends Component<Props, State> {
 
   private get timeSeries() {
     const {timeSeries} = this.props
+    console.log("timeseries", timeSeries);
+
+    let booleanColumns = {};
+
+   for (let i=0; i<timeSeries.length; ++i) {
+    	let row = timeSeries[i];
+    	for (let j=0; j<row.length; ++j) { 
+ 			if (typeof row[j] === 'boolean') {
+ 				booleanColumns[j] = true;
+ 			}
+ 		}
+ 	}
+
+
+    for (let i=0; i<timeSeries.length; ++i) {
+    	let row = timeSeries[i];
+    	for (let j=0; j<row.length; ++j) { 
+    		if (booleanColumns[j]) {
+    			row[j] = row[j] ? 100.0 : 0.0;
+    		}
+    	}
+    }
+
 
     // Avoid 'Can't plot empty data set' errors by falling back to a default
     // dataset that's valid for Dygraph.
@@ -292,6 +318,7 @@ class Dygraph extends Component<Props, State> {
     const dygraphSeriesKeys = Object.keys(dygraphSeries).sort()
     const lineColors = getLineColorsHexes(colors, numSeries)
     const coloredDygraphSeries = {}
+    console.log("dygraphinfo", dygraphSeries);
 
     for (const seriesName in dygraphSeries) {
       if (dygraphSeries.hasOwnProperty(seriesName)) {
@@ -320,6 +347,8 @@ class Dygraph extends Component<Props, State> {
     }
 
     let range = getRangeMemoizedY(timeSeries, y.bounds, ruleValues)
+
+    console.log('range=', range);
 
     const [min, max] = range
 
