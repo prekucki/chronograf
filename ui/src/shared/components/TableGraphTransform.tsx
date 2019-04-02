@@ -99,6 +99,7 @@ class TableGraphTransform extends PureComponent<Props, State> {
 
         this.setState({transformedData: influxQLData, invalidDataError: null})
       } catch (err) {
+      console.error("transformedData", err);
         let invalidDataError: ErrorTypes
         switch (err.toString()) {
           case 'Error: Cannot display meta and data query':

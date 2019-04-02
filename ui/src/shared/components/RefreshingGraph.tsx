@@ -237,6 +237,10 @@ class RefreshingGraph extends Component<Props> {
                       )
                     }
 
+                    console.log('type=', type, 'q=', timeSeriesInfluxQL);
+                    if (timeSeriesInfluxQL[0] && timeSeriesInfluxQL[0].response)
+                    fixData(timeSeriesInfluxQL[0].response.results[0].series[0].values);
+
                     switch (type) {
                       case CellType.SingleStat:
                         return this.singleStat(
@@ -584,6 +588,30 @@ const mapStateToProps = ({links, annotations: {mode}}) => ({
 const mdtp = {
   handleSetHoverTime: setHoverTime,
   onNotify: notify,
+}
+
+function fixData(timeSeries) {
+
+  let booleanColumns = {};
+  
+   for (let i=0; i<timeSeries.length; ++i) {
+      let row = timeSeries[i];
+      for (let j=0; j<row.length; ++j) { 
+      if (typeof row[j] === 'boolean') {
+        booleanColumns[j] = true;
+      }
+    }
+  }
+
+
+    for (let i=0; i<timeSeries.length; ++i) {
+      let row = timeSeries[i];
+      for (let j=0; j<row.length; ++j) { 
+        if (booleanColumns[j]) {
+          row[j] = row[j] ? 100.0 : 0.0;
+        }
+      }
+    }
 }
 
 export default connect(mapStateToProps, mdtp)(RefreshingGraph)
