@@ -237,9 +237,17 @@ class RefreshingGraph extends Component<Props> {
                       )
                     }
 
-                    console.log('type=', type, 'q=', timeSeriesInfluxQL);
-                    if (timeSeriesInfluxQL[0] && timeSeriesInfluxQL[0].response)
-                    fixData(timeSeriesInfluxQL[0].response.results[0].series[0].values);
+		    console.log('type=', type, 'q=', JSON.stringify(timeSeriesInfluxQL));
+		    let baseQL = timeSeriesInfluxQL[0];
+		    if (baseQL) {
+			    let results = baseQL.response.results;
+			    if (results) {
+				    let series = results[0];
+				    if (series) {
+					    fixData(series[0].values);
+				    }
+			    }
+		    }
 
                     switch (type) {
                       case CellType.SingleStat:
