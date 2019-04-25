@@ -33,6 +33,7 @@ class WriteDataHeader extends PureComponent<Props> {
             onSelectDatabase={handleSelectDatabase}
             database={selectedDatabase}
             onErrorThrown={errorThrown}
+            addNew={true}
           />
           {this.modeSelector}
         </div>

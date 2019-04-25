@@ -14,11 +14,13 @@ interface Props {
   handleEdit: (e: ChangeEvent<HTMLTextAreaElement>) => void
   handleKeyUp: (e: KeyboardEvent<HTMLTextAreaElement>) => void
   handleFile: (drop: boolean) => (e: DragEvent<HTMLInputElement>) => void
-  handleSubmit: (e: MouseEvent<HTMLButtonElement>) => void
+  handleSubmit: (e: MouseEvent<HTMLButtonElement>) => void,
+  handleFileFormat: (newFormat : string) => void,
   inputContent: string
   uploadContent: string
   fileName: string
-  mode: string
+  mode: string,
+  fileFormat: string,
   fileInput: (ref: any) => any
   handleFileOpen: () => void
   isUploading: boolean
@@ -115,6 +117,10 @@ class WriteDataBody extends PureComponent<Props> {
 
     return (
       <span className="write-data-form--file-submit">
+        <select className="custom-select" value={this.props.fileFormat} onChange={(e) => this.handleFileFormatChanged(e)}>
+            <option value="raw">Influxdb raw import</option>
+            <option value="exoXml">ExoMars XML</option>
+        </select>
         <button className="btn btn-md btn-success" onClick={handleSubmit}>
           Write this File
         </button>
@@ -123,6 +129,10 @@ class WriteDataBody extends PureComponent<Props> {
         </button>
       </span>
     )
+  }
+
+  private handleFileFormatChanged(e: ChangeEvent<HTMLSelectElement>) : void {
+    this.props.handleFileFormat(e.target.value);
   }
 
   private get dragAreaClass(): string {

@@ -14,6 +14,7 @@ import {OVERLAY_TECHNOLOGY} from 'src/shared/constants/classNames'
 import {WriteDataMode} from 'src/types'
 import {ErrorHandling} from 'src/shared/decorators/errors'
 import {Source, DropdownItem} from 'src/types'
+import {exoConvert} from 'src/utils/exomars'
 
 let dragCounter = 0
 
@@ -31,7 +32,8 @@ interface State {
   uploadContent: string
   fileName: string
   progress: string
-  mode: WriteDataMode
+  mode: WriteDataMode,
+  fileFormat: string,
   dragClass: string
   isUploading: boolean
 }
@@ -49,6 +51,7 @@ class WriteDataForm extends PureComponent<Props, State> {
       fileName: '',
       progress: '',
       mode: WriteDataMode.File,
+      fileFormat: 'raw',
       dragClass: 'drag-none',
       isUploading: false,
     }
@@ -85,6 +88,7 @@ class WriteDataForm extends PureComponent<Props, State> {
             handleSubmit={this.handleSubmit}
             handleFileOpen={this.handleFileOpen}
             handleCancelFile={this.handleCancelFile}
+            handleFileFormat={this.handleFileFormat)
           />
         </div>
       </div>
@@ -93,6 +97,10 @@ class WriteDataForm extends PureComponent<Props, State> {
 
   private handleToggleMode = (mode: WriteDataMode): void => {
     this.setState({mode})
+  }
+
+  private handleFileFormat = (fileFormat : string):void => {
+    this.setState({fileFormat})
   }
 
   private handleSelectDatabase = (item: DropdownItem): void => {
@@ -109,13 +117,18 @@ class WriteDataForm extends PureComponent<Props, State> {
 
   private handleSubmit = async () => {
     const {onClose, source, writeLineProtocol} = this.props
-    const {inputContent, uploadContent, selectedDatabase, mode} = this.state
+    const {inputContent, uploadContent, selectedDatabase, mode, fileFormat} = this.state
     let content = inputContent
 
     if (mode === WriteDataMode.File) {
       content = uploadContent
     }
     this.setState({isUploading: true})
+
+    console.log('content=', uploadContent, 'fileFormat=', fileFormat);
+    if (fileFormat === 'exoXml') {
+        content = exoConvert(content);
+    }
 
     try {
       await writeLineProtocol(source, selectedDatabase, content)

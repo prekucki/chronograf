@@ -16,7 +16,8 @@ interface Props {
   onSelectDatabase: (database: Database) => void
   onStartEdit?: () => void
   onErrorThrown: (error: string) => void
-  source: Source
+  source: Source,
+  addNew? : bool,
 }
 
 interface State {
@@ -58,7 +59,7 @@ class DatabaseDropdown extends Component<Props, State> {
   }
 
   private getDatabasesAsync = async (): Promise<void> => {
-    const {source, database, onSelectDatabase, onErrorThrown} = this.props
+    const {source, database, onSelectDatabase, onErrorThrown, addNew} = this.props
     const proxy = source.links.proxy
     try {
       const {data} = await showDatabases(proxy)
@@ -68,6 +69,12 @@ class DatabaseDropdown extends Component<Props, State> {
       }
 
       const nonSystemDatabases = databases.filter(name => name !== '_internal')
+
+      if (addNew) {
+        nonSystemDatabases.push('New Database');
+      }
+
+      console.log('props=', this.props, 'databases=', databases);
 
       this.setState({
         databases: nonSystemDatabases,
